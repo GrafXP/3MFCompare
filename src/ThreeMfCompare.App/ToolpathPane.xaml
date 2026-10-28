@@ -1,0 +1,56 @@
+<UserControl x:Class="ThreeMfCompare.App.ToolpathPane"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:hx="http://helix-toolkit.org/wpf/SharpDX">
+    <!-- One project's G-code; the camera follows the other panes' while they are synced. -->
+    <Border CornerRadius="8" ClipToBounds="True" Background="{StaticResource ViewportBrush}" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1">
+        <Grid>
+            <!-- As in the slicer: the left button turns, the right and the middle button pan, the wheel zooms. -->
+            <hx:Viewport3DX x:Name="Viewport"
+                            EffectsManager="{Binding EffectsManager}"
+                            Camera="{Binding Camera}"
+                            BackgroundColor="#FF1A1A19"
+                            ModelUpDirection="0,0,1"
+                            MSAA="Four"
+                            ShowViewCube="False"
+                            ShowCoordinateSystem="False"
+                            UseDefaultGestures="False"
+                            IsInertiaEnabled="False"
+                            CameraRotationMode="Turntable"
+                            RotateAroundMouseDownPoint="True"
+                            ZoomAroundMouseDownPoint="True"
+                            CameraChanged="Viewport_CameraChanged"
+                            MouseDoubleClick="Viewport_MouseDoubleClick">
+                <hx:Viewport3DX.InputBindings>
+                    <MouseBinding Command="{x:Static hx:ViewportCommands.Rotate}" Gesture="LeftClick" />
+                    <MouseBinding Command="{x:Static hx:ViewportCommands.Pan}" Gesture="RightClick" />
+                    <MouseBinding Command="{x:Static hx:ViewportCommands.Pan}" Gesture="MiddleClick" />
+                </hx:Viewport3DX.InputBindings>
+                <!-- A light at the camera, so every bead in view is lit in its own colour. -->
+                <hx:DirectionalLight3D Direction="{Binding Camera.LookDirection}" Color="#FFC8C8C8" />
+                <hx:DirectionalLight3D Direction="-0.3,0.5,-1" Color="#FF505050" />
+                <hx:AmbientLight3D Color="#FF383838" />
+
+                <hx:LineGeometryModel3D Geometry="{Binding Bed}" Color="#FF383835" Thickness="1" IsHitTestVisible="False" />
+                <hx:MeshGeometryModel3D Geometry="{Binding Beads}" Material="{Binding Material}" IsHitTestVisible="False" />
+                <hx:LineGeometryModel3D Geometry="{Binding Lines}" Color="White" Thickness="1.5" IsHitTestVisible="False" />
+            </hx:Viewport3DX>
+
+            <!-- Which project this is, and what of it is shown. -->
+            <Border Style="{StaticResource Overlay}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="12,9" IsHitTestVisible="False">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="10" Height="10" Fill="{Binding Project.IdentityBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Project.ShortName}" FontWeight="SemiBold" Margin="8,0,0,0" TextTrimming="CharacterEllipsis" MaxWidth="360" />
+                        <TextBlock Text="baseline" Foreground="{StaticResource TextMutedBrush}" FontSize="11" Margin="8,1,0,0" VerticalAlignment="Center"
+                                   Visibility="{Binding Project.IsBaseline, Converter={StaticResource BoolVisible}}" />
+                    </StackPanel>
+                    <TextBlock Text="{Binding Summary}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" Margin="18,3,0,0" />
+                    <TextBlock Text="{Binding Info}" Foreground="{StaticResource TextSecondaryBrush}" FontSize="12" Margin="18,2,0,0" TextWrapping="Wrap" MaxWidth="420" />
+                </StackPanel>
+            </Border>
+            <TextBlock Text="{Binding Caption}" Foreground="{StaticResource TextMutedBrush}" FontSize="11" Margin="12,0,12,8"
+                       HorizontalAlignment="Left" VerticalAlignment="Bottom" IsHitTestVisible="False" TextWrapping="Wrap" />
+        </Grid>
+    </Border>
+</UserControl>

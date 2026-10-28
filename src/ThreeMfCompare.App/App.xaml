@@ -1,0 +1,19 @@
+<Application x:Class="ThreeMfCompare.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ThreeMfCompare.App"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolVisible" />
+            <local:EnumEqualsConverter x:Key="Is" />
+            <local:EnumVisibleConverter x:Key="IsVisible" />
+            <local:ShownConverter x:Key="Shown" />
+            <local:FractionWidthConverter x:Key="Fraction" />
+            <FontFamily x:Key="MonoFont">Cascadia Mono, Consolas</FontFamily>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

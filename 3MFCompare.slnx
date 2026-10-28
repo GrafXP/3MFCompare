@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ThreeMfCompare.App/ThreeMfCompare.App.csproj" />
+    <Project Path="src/ThreeMfCompare.Core/ThreeMfCompare.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ThreeMfCompare.Tests/ThreeMfCompare.Tests.csproj" />
+  </Folder>
+</Solution>
